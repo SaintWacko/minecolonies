@@ -1,5 +1,8 @@
 package com.minecolonies.api.entity.ai.statemachine.states;
 
+import net.minecraft.nbt.StringTag;
+import net.minecraftforge.common.util.INBTSerializable;
+
 /**
  * Basic state enclosing states all ai's use. Please extend this class with the states your ai needs. And please document each state on what it does.
  */
@@ -630,7 +633,8 @@ public enum AIWorkerState implements IAIState
     ARCHEOLOGIST_SPAWN_WORKSTATION(true),
     ARCHEOLOGIST_DO_WORK(true),
     ARCHEOLOGIST_CLEAR_WORKSTATION(true),
-    ARCHEOLOGIST_TRAVEL_HOME(false)
+    ARCHEOLOGIST_TRAVEL_HOME(false),
+    ARCHEOLOGIST_RELEASE_TARGET(true)
     ;
 
     /**
@@ -656,5 +660,15 @@ public enum AIWorkerState implements IAIState
     public boolean isOkayToEat()
     {
         return isOkayToEat;
+    }
+
+    public StringTag serializeNBT()
+    {
+        return StringTag.valueOf(name());
+    }
+
+    public static AIWorkerState deserializeNBT(final StringTag tag)
+    {
+        return valueOf(tag.getAsString());
     }
 }
